@@ -39,6 +39,13 @@ class Account:
         """Return the number of years until balance would grow to amount."""
         assert self.balance > 0 and amount > 0 and self.interest > 0
         "*** YOUR CODE HERE ***"
+        year = 0
+        b = self.balance
+        while b < amount:
+            b = b * (1 + self.interest)
+            year += 1
+
+        return year
 
 
 class FreeChecking(Account):
