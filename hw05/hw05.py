@@ -141,6 +141,7 @@ def hailstone(n):
     yield from hailstone(ans)
 
 
+# marker
 def remainders_generator(m):
     """
     Yields m generators. The ith yielded generator yields natural numbers whose
