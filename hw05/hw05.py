@@ -11,14 +11,14 @@ def merge(a, b):
     [2, 3, 5, 7, 8, 9, 11, 13, 14, 15]
     """
     "*** YOUR CODE HERE ***"
-    def foo(a_val, b_val):
-      if a_val < b_val:
-        return a_val, 0
-      elif b_val < a_val:
-        return b_val, 1
-      else:
-        return a_val, 2
 
+    def foo(a_val, b_val):
+        if a_val < b_val:
+            return a_val, 0
+        elif b_val < a_val:
+            return b_val, 1
+        else:
+            return a_val, 2
 
     temp_a = a.__next__()
     temp_b = b.__next__()
@@ -28,20 +28,21 @@ def merge(a, b):
     yield answer
 
     while True:
-      if flag == 1:
-        temp_b = b.__next__()
-        answer, flag = foo(temp_a, temp_b)
-      elif flag == 0:
-        temp_a = a.__next__()
-        answer, flag = foo(temp_a, temp_b)
-      else:
-        temp_a = a.__next__()
-        temp_b = b.__next__()
-        answer, flag = foo(temp_a, temp_b)
+        if flag == 1:
+            temp_b = b.__next__()
+            answer, flag = foo(temp_a, temp_b)
+        elif flag == 0:
+            temp_a = a.__next__()
+            answer, flag = foo(temp_a, temp_b)
+        else:
+            temp_a = a.__next__()
+            temp_b = b.__next__()
+            answer, flag = foo(temp_a, temp_b)
 
-      yield answer
-          
+        yield answer
 
+
+# marker
 def gen_perms(seq):
     """Generates all permutations of the given sequence. Each permutation is a
     list of the elements in SEQ in a different order. The permutations may be
@@ -65,7 +66,13 @@ def gen_perms(seq):
     [['a', 'b'], ['b', 'a']]
     """
     "*** YOUR CODE HERE ***"
-    
+
+    if not seq:
+        yield []
+    else:
+        for permu in gen_perms(seq[1:]):
+            for i in range(len(seq)):
+                yield permu[:i] + [seq[0]] + permu[i:]
 
 
 def yield_paths(t, value):
@@ -103,11 +110,15 @@ def yield_paths(t, value):
     [[0, 2], [0, 2, 1, 2]]
     """
     "*** YOUR CODE HERE ***"
-    for _______________ in _________________:
-        for _______________ in _________________:
-            "*** YOUR CODE HERE ***"
+    if label(t) == value:
+        yield [label(t)]
+
+    for branch in branches(t):
+        for p in yield_paths(branch, value):
+            yield [label(t)] + p
 
 
+# marker
 def hailstone(n):
     """Yields the elements of the hailstone sequence starting at n.
        At the end of the sequence, yield 1 infinitely.
@@ -119,6 +130,15 @@ def hailstone(n):
     1
     """
     "*** YOUR CODE HERE ***"
+    yield n
+    if n == 1:
+        ans = 1
+    elif n % 2 == 0:
+        ans = n // 2
+    else:
+        ans = n * 3 + 1
+
+    yield from hailstone(ans)
 
 
 def remainders_generator(m):
@@ -153,6 +173,13 @@ def remainders_generator(m):
     11
     """
     "*** YOUR CODE HERE ***"
+    def gen(i):
+        for n in naturals():
+            if n % m == i:
+                yield n
+
+    for i in range(m):
+        yield gen(i)
 
 
 # Tree ADT
